@@ -7,11 +7,9 @@ using UnityEngine.Tilemaps;
 public class Controller : MonoBehaviour
 {
     public Tilemap WallTilemap;
-    public BattleManager BattleManager;
+    // public BattleManager BattleManager;
     
     private Player _player;
-    private bool isBattling = false;
-    
     
     private void Awake()
     {
@@ -36,8 +34,7 @@ public class Controller : MonoBehaviour
         {
             Debug.Log("Battle");
             var enemy = hit.collider.GetComponent<Enemy>();
-            BattleManager.StartBattle(_player, enemy);
-            isBattling = true;
+            _player.StartBattle(enemy);
             return;
         }
         
@@ -52,7 +49,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isBattling)
+        if (!_player.IsBattling)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
