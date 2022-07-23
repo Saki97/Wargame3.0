@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
     public Animator PlayerBattlePic;
     public Animator PlayerHPBar;
+    public TMP_Text PlayerHPText;
     public Animator EnemyBattlePic;
     public Animator EnemyrHPBar;
+    public TMP_Text EnemyHPText;
     
     [SerializeField] private float AttackInterval = 0.25f;
 
@@ -27,13 +31,16 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle(Player player, Enemy enemy)
     {
-        performUI();
+        performUI(player, enemy);
 
         StartCoroutine(performBattle(player, enemy));
     }
 
-    private void performUI()
+    private void performUI(Player player, Enemy enemy)
     {
+        PlayerHPText.text = $"{player.CurrentHitPoints} / {player.MaxHitPoints}";
+        EnemyHPText.text = $"{enemy.CurrentHitPoints} / {enemy.MaxHitPoints}";
+            
         PlayerBattlePic.SetTrigger(_popUpAnimTriggerName);
         EnemyBattlePic.SetTrigger(_popUpAnimTriggerName);
         
@@ -47,9 +54,11 @@ public class BattleManager : MonoBehaviour
         while (player.CurrentHitPoints != 0 && enemy.CurrentHitPoints != 0)
         {
             yield return new WaitForSeconds(AttackInterval);
+            PlayerHPText.text = $"{player.CurrentHitPoints} / {player.MaxHitPoints}";
             enemy.Damage(player.ATK);
             
             yield return new WaitForSeconds(AttackInterval);
+            EnemyHPText.text = $"{enemy.CurrentHitPoints} / {enemy.MaxHitPoints}";
             player.Damage(enemy.ATK);
         }
 

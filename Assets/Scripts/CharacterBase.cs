@@ -16,6 +16,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected int _currentHitPoints;
     public int ATK => _atk;
     public int CurrentHitPoints => _currentHitPoints;
+    public int MaxHitPoints => _maxHitPoints;
     
     // Start is called before the first frame update
     protected void Start()
