@@ -7,8 +7,8 @@ using UnityEngine.Tilemaps;
 public class Controller : MonoBehaviour
 {
     public Tilemap WallTilemap;
-    public Animator PlayerBattlePic;
-
+    public BattleManager BattleManager;
+    
     private Player _player;
     private bool isBattling = false;
     
@@ -35,7 +35,8 @@ public class Controller : MonoBehaviour
         if (hit.collider != null && hit.distance < 1f)
         {
             Debug.Log("Battle");
-            PlayerBattlePic.SetTrigger("PopUp");
+            var enemy = hit.collider.GetComponent<Enemy>();
+            BattleManager.StartBattle(_player, enemy);
             isBattling = true;
             return;
         }
